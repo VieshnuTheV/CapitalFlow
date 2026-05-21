@@ -1,231 +1,242 @@
-const liquid = {
-  checking: { balance: 45200 },
-  brokerage: {
-    balance: 380450,
-    holdings: [
-      { symbol: 'VOO', price: 485.2 },
-      { symbol: 'QQQM', price: 182.45 },
-    ],
-  },
-  crypto: {
-    total: 125000,
-    coins: [
-      { symbol: 'BTC', qty: 1.85, value: 115000 },
-      { symbol: 'ETH', qty: 3.4, value: 10000 },
-    ],
-  },
-}
-
-const targets = [
-  { label: 'ETFs & Index', target: 60, current: 55, variance: -5 },
-  { label: 'Individual Stocks', target: 20, current: 25, variance: 5 },
-  { label: 'Crypto', target: 20, current: 20, variance: 0 },
-]
-
-const liabilities = [
-  { label: 'Mortgage', institution: 'Chase Bank', icon: 'home', rate: '3.2% Fixed', balance: 200000 },
-  { label: 'Credit Card', institution: 'Amex Platinum', icon: 'credit_card', rate: 'Variable', balance: 4760 },
-]
-
-function fmt(n: number) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(n)
-}
-
 export default function Accounts() {
   return (
     <>
       {/* Page Header */}
-      <div className="mb-8">
-        <h2 className="font-inter text-display-lg text-on-surface">Net Worth</h2>
-        <div className="flex items-baseline gap-4 mt-2">
-          <span className="font-geist text-display-lg text-primary">$1,245,890.00</span>
-          <span className="font-inter text-body-md text-secondary-fixed-dim bg-secondary-container/20 px-2 py-1 rounded">
-            +2.4% ($29,400)
-          </span>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-8 gap-4">
+        <div>
+          <h2 className="font-inter text-display-lg text-on-surface">Income & Expenses</h2>
+          <p className="font-inter text-body-md text-on-surface-variant mt-2">
+            Manage cash flow, monitor allocations, and review recent activity.
+          </p>
         </div>
+        <button className="px-4 py-2 border border-outline-variant rounded-lg font-inter text-label-md text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap">
+          Export CSV
+        </button>
       </div>
 
-      {/* Bento Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-
-        {/* Liquid Assets — 8 cols */}
-        <div className="md:col-span-8 flex flex-col gap-6">
-          <h3 className="font-geist text-stat-primary text-on-surface border-b border-outline-variant pb-2">
-            Liquid Assets
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Checking */}
-            <div className="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 hover:shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-shadow">
-              <div className="flex items-start mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 bg-surface-container rounded-lg text-primary">
-                    <span className="material-symbols-outlined">account_balance_wallet</span>
-                  </div>
-                  <div>
-                    <h4 className="font-geist text-label-caps text-on-surface-variant">Checking</h4>
-                    <p className="font-inter text-body-sm text-on-surface">Chase Premium</p>
-                  </div>
-                </div>
-              </div>
-              <div className="font-geist text-stat-primary text-on-surface">{fmt(liquid.checking.balance)}</div>
-            </div>
-
-            {/* Brokerage */}
-            <div className="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 hover:shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-shadow">
-              <div className="flex items-start mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 bg-surface-container rounded-lg text-primary">
-                    <span className="material-symbols-outlined">monitoring</span>
-                  </div>
-                  <div>
-                    <h4 className="font-geist text-label-caps text-on-surface-variant">Brokerage</h4>
-                    <p className="font-inter text-body-sm text-on-surface">Fidelity Intl</p>
-                  </div>
-                </div>
-              </div>
-              <div className="font-geist text-stat-primary text-on-surface">{fmt(liquid.brokerage.balance)}</div>
-              <div className="mt-4 flex flex-col gap-2 pt-4 border-t border-surface-variant">
-                {liquid.brokerage.holdings.map((h) => (
-                  <div key={h.symbol} className="flex justify-between font-inter text-body-sm">
-                    <span className="text-on-surface font-semibold">{h.symbol}</span>
-                    <span className="text-on-surface-variant">${h.price.toFixed(2)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Crypto */}
-          <div className="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 hover:shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-shadow">
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center gap-2">
-                <div className="p-2 bg-surface-container rounded-lg text-primary">
-                  <span className="material-symbols-outlined">currency_bitcoin</span>
-                </div>
-                <h4 className="font-geist text-label-caps text-on-surface-variant">Crypto Wallets</h4>
-              </div>
-              <div className="font-geist text-stat-primary text-on-surface">{fmt(liquid.crypto.total)}</div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {liquid.crypto.coins.map((c) => (
-                <div key={c.symbol} className="bg-surface rounded-lg p-4">
-                  <div className="font-inter text-body-sm text-on-surface-variant mb-1">{c.symbol}</div>
-                  <div className="font-geist text-[20px] font-semibold text-on-surface">{c.qty}</div>
-                  <div className="font-inter text-body-sm text-secondary-fixed-dim mt-1">~{fmt(c.value)}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Target Ratios — 4 cols */}
-        <div className="md:col-span-4 flex flex-col gap-6">
-          <h3 className="font-geist text-stat-primary text-on-surface border-b border-outline-variant pb-2">
-            Target Ratios
-          </h3>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+        {/* Left Column (8 cols) */}
+        <div className="lg:col-span-8 flex flex-col gap-6">
+          
+          {/* Monthly Allocation Goals */}
           <div className="bg-surface-container-lowest border border-surface-variant rounded-xl p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-geist text-label-caps text-on-surface-variant">Monthly Allocation Goals</h3>
+              <button className="text-on-surface-variant hover:text-on-surface">
+                <span className="material-symbols-outlined">more_horiz</span>
+              </button>
+            </div>
+            
             <div className="flex flex-col gap-6">
-              {targets.map((t) => (
-                <div key={t.label}>
-                  <div className="flex justify-between mb-2">
-                    <span className="font-geist text-label-caps text-on-surface">{t.label}</span>
-                    <span className="font-inter text-body-sm text-on-surface-variant">{t.target}% Target</span>
-                  </div>
-                  <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden">
-                    <div className="bg-primary h-full rounded-full" style={{ width: `${t.current}%` }} />
-                  </div>
-                  <div
-                    className={`text-right mt-1 font-inter text-body-sm ${
-                      t.variance < 0
-                        ? 'text-error'
-                        : t.variance > 0
-                        ? 'text-secondary-fixed-dim'
-                        : 'text-on-surface-variant'
-                    }`}
-                  >
-                    {t.variance === 0
-                      ? 'On Target'
-                      : `${t.variance > 0 ? '+' : ''}${t.variance}% Variance`}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Non-Liquid Assets — full width */}
-        <div className="md:col-span-12 mt-4">
-          <h3 className="font-geist text-stat-primary text-on-surface border-b border-outline-variant pb-2 mb-6">
-            Non-Liquid Assets
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Real Estate */}
-            <div className="bg-surface-container-lowest border border-surface-variant rounded-xl overflow-hidden hover:shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-shadow">
-              <div className="h-32 bg-surface-container-high" />
-              <div className="p-6">
-                <h4 className="font-geist text-label-caps text-on-surface-variant mb-1">Primary Residence</h4>
-                <div className="font-geist text-stat-primary text-on-surface mb-4">$850,000.00</div>
-                <div className="flex justify-between font-inter text-body-sm text-on-surface-variant border-t border-surface-variant pt-3">
-                  <span>Zestimate</span>
-                  <span className="text-secondary-fixed-dim">Updated 2d ago</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Term Deposit */}
-            <div className="bg-surface-container-lowest border border-surface-variant rounded-xl p-6 hover:shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-shadow">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="p-2 bg-surface-container rounded-lg text-primary">
-                  <span className="material-symbols-outlined">savings</span>
-                </div>
-                <h4 className="font-geist text-label-caps text-on-surface-variant">Term Deposit (CD)</h4>
-              </div>
-              <div className="font-geist text-stat-primary text-on-surface mb-2">$50,000.00</div>
-              <p className="font-inter text-body-sm text-on-surface-variant mb-4">Matures: Oct 2025 • 4.5% APY</p>
-              <div className="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
-                <div className="bg-primary h-full rounded-full" style={{ width: '60%' }} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Liabilities — full width */}
-        <div className="md:col-span-12 mt-4 mb-12">
-          <h3 className="font-geist text-stat-primary text-on-surface border-b border-outline-variant pb-2 mb-6">
-            Liabilities
-          </h3>
-          <div className="bg-surface-container-lowest border border-surface-variant rounded-xl overflow-hidden">
-            <div className="grid grid-cols-4 px-6 py-3 bg-surface border-b border-surface-variant font-geist text-label-caps text-on-surface-variant">
-              <div className="col-span-2">Account</div>
-              <div>Interest Rate</div>
-              <div className="text-right">Balance</div>
-            </div>
-            <div className="flex flex-col">
-              {liabilities.map((l, i) => (
-                <div
-                  key={l.label}
-                  className={`grid grid-cols-4 px-6 py-4 hover:bg-surface-container transition-colors items-center ${
-                    i < liabilities.length - 1 ? 'border-b border-surface-variant' : ''
-                  }`}
-                >
-                  <div className="col-span-2 flex items-center gap-3">
-                    <div className="p-1.5 bg-error-container text-error rounded-md">
-                      <span className="material-symbols-outlined text-[16px]">{l.icon}</span>
+              {/* Goal 1 */}
+              <div>
+                <div className="flex justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-secondary-container/30 text-secondary-fixed-dim rounded-lg flex items-center justify-center">
+                      <span className="material-symbols-outlined text-[16px]">show_chart</span>
                     </div>
                     <div>
-                      <div className="font-inter text-body-md font-medium text-on-surface">{l.label}</div>
-                      <div className="font-inter text-body-sm text-on-surface-variant">{l.institution}</div>
+                      <div className="font-inter text-body-md font-medium text-on-surface">SPYM Index Fund</div>
+                      <div className="font-inter text-body-sm text-on-surface-variant">Investing</div>
                     </div>
                   </div>
-                  <div className="font-inter text-body-md text-on-surface">{l.rate}</div>
-                  <div className="text-right font-geist text-[18px] font-semibold text-error">
-                    -{fmt(l.balance)}
+                  <div className="text-right flex items-center gap-1">
+                    <span className="font-geist text-[18px] font-semibold text-on-surface">RM 250</span>
+                    <span className="font-inter text-body-sm text-on-surface-variant pt-1"> / RM 300</span>
                   </div>
                 </div>
-              ))}
+                <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden mt-2">
+                  <div className="bg-primary h-full rounded-full" style={{ width: '83.33%' }} />
+                </div>
+              </div>
+
+              {/* Goal 2 */}
+              <div>
+                <div className="flex justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-secondary-container/30 text-secondary-fixed-dim rounded-lg flex items-center justify-center">
+                      <span className="material-symbols-outlined text-[16px]">home</span>
+                    </div>
+                    <div>
+                      <div className="font-inter text-body-md font-medium text-on-surface">Emergency Fund</div>
+                      <div className="font-inter text-body-sm text-on-surface-variant">Cash Savings</div>
+                    </div>
+                  </div>
+                  <div className="text-right flex items-center gap-1">
+                    <span className="font-geist text-[18px] font-semibold text-on-surface">RM 1,000</span>
+                    <span className="font-inter text-body-sm text-on-surface-variant pt-1"> / RM 1,000</span>
+                  </div>
+                </div>
+                <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden mt-2">
+                  <div className="bg-primary h-full rounded-full" style={{ width: '100%' }} />
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* Recent Transactions */}
+          <div className="bg-surface-container-lowest border border-surface-variant rounded-xl overflow-hidden">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-6 border-b border-surface-variant gap-4">
+              <h3 className="font-geist text-label-caps text-on-surface-variant">Recent Transactions</h3>
+              <div className="flex flex-wrap gap-2">
+                <button className="px-4 py-1.5 bg-on-surface text-surface rounded-full font-inter text-label-sm">All</button>
+                <button className="px-4 py-1.5 border border-outline-variant text-on-surface-variant rounded-full font-inter text-label-sm hover:bg-surface-container transition-colors">Housing</button>
+                <button className="px-4 py-1.5 border border-outline-variant text-on-surface-variant rounded-full font-inter text-label-sm hover:bg-surface-container transition-colors">Food</button>
+                <button className="px-4 py-1.5 border border-outline-variant text-on-surface-variant rounded-full font-inter text-label-sm hover:bg-surface-container transition-colors">Investing</button>
+              </div>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                  <tr className="border-b border-surface-variant bg-surface-container-lowest font-geist text-label-caps text-on-surface-variant">
+                    <th className="p-4 font-normal">Date</th>
+                    <th className="p-4 font-normal">Description</th>
+                    <th className="p-4 font-normal">Category</th>
+                    <th className="p-4 font-normal text-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody className="font-inter text-body-md text-on-surface">
+                  <tr className="border-b border-surface-variant hover:bg-surface-container transition-colors">
+                    <td className="p-4 text-on-surface-variant whitespace-nowrap">Oct 24,<br/>2023</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+                          <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
+                        </div>
+                        Whole Foods Market
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="px-2 py-1 bg-[#e0f2fe] text-[#0369a1] dark:bg-[#0c4a6e] dark:text-[#38bdf8] rounded text-[10px] uppercase tracking-wider font-geist font-semibold">Food</span>
+                    </td>
+                    <td className="p-4 text-right font-geist font-semibold">-RM 142.50</td>
+                  </tr>
+                  
+                  <tr className="border-b border-surface-variant hover:bg-surface-container transition-colors">
+                    <td className="p-4 text-on-surface-variant whitespace-nowrap">Oct 23,<br/>2023</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-secondary-fixed-dim/20 text-secondary-fixed-dim rounded-lg flex items-center justify-center">
+                          <span className="material-symbols-outlined text-[18px]">payments</span>
+                        </div>
+                        Tech Corp Inc.
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="px-2 py-1 bg-[#dcfce7] text-[#15803d] dark:bg-[#14532d] dark:text-[#4ade80] rounded text-[10px] uppercase tracking-wider font-geist font-semibold">Salary</span>
+                    </td>
+                    <td className="p-4 text-right font-geist font-semibold text-secondary-fixed-dim">+RM 4,500.00</td>
+                  </tr>
+                  
+                  <tr className="border-b border-surface-variant hover:bg-surface-container transition-colors">
+                    <td className="p-4 text-on-surface-variant whitespace-nowrap">Oct 21,<br/>2023</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+                          <span className="material-symbols-outlined text-[18px]">home</span>
+                        </div>
+                        City Apartments
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="px-2 py-1 bg-[#e0f2fe] text-[#0369a1] dark:bg-[#0c4a6e] dark:text-[#38bdf8] rounded text-[10px] uppercase tracking-wider font-geist font-semibold">Housing</span>
+                    </td>
+                    <td className="p-4 text-right font-geist font-semibold">-RM 1,200.00</td>
+                  </tr>
+                  
+                  <tr className="hover:bg-surface-container transition-colors">
+                    <td className="p-4 text-on-surface-variant whitespace-nowrap">Oct 20,<br/>2023</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+                          <span className="material-symbols-outlined text-[18px]">trending_up</span>
+                        </div>
+                        Vanguard SPYM Transfer
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="px-2 py-1 bg-[#e0f2fe] text-[#0369a1] dark:bg-[#0c4a6e] dark:text-[#38bdf8] rounded text-[10px] uppercase tracking-wider font-geist font-semibold">Investing</span>
+                    </td>
+                    <td className="p-4 text-right font-geist font-semibold">-RM 250.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="p-4 border-t border-surface-variant text-center">
+              <button className="font-inter text-label-md text-on-surface-variant hover:text-on-surface transition-colors">
+                View All Transactions
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column (4 cols) */}
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          
+          {/* Monthly Income */}
+          <div className="bg-surface-container-lowest border border-surface-variant rounded-xl p-6">
+            <div className="mb-6">
+              <h3 className="font-geist text-label-caps text-on-surface-variant mb-2">Monthly Income</h3>
+              <div className="font-geist text-[32px] leading-tight font-medium text-on-surface">RM 5,240.00</div>
+              <div className="font-inter text-body-sm text-secondary-fixed-dim mt-1">↑ +4.2% vs last month</div>
+            </div>
+            
+            <div>
+              <h4 className="font-inter text-body-sm text-on-surface-variant mb-4">Streams</h4>
+              <div className="flex flex-col gap-4 border-t border-surface-variant pt-4">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-secondary-fixed-dim"></div>
+                    <span className="font-inter text-body-sm text-on-surface">Primary Salary</span>
+                  </div>
+                  <span className="font-geist text-[16px] font-medium text-on-surface">RM 4,500.00</span>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-[#3b82f6]"></div>
+                    <span className="font-inter text-body-sm text-on-surface">Dividends</span>
+                  </div>
+                  <span className="font-geist text-[16px] font-medium text-on-surface">RM 340.00</span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-on-surface-variant"></div>
+                    <span className="font-inter text-body-sm text-on-surface">Side Hustle</span>
+                  </div>
+                  <span className="font-geist text-[16px] font-medium text-on-surface">RM 400.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* System Status */}
+          <div className="bg-surface-container-lowest border border-surface-variant rounded-xl p-6">
+            <h3 className="font-geist text-label-caps text-on-surface-variant mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-[18px]">data_object</span>
+              System Status
+            </h3>
+            
+            <div className="bg-surface-container rounded-lg p-4 mb-4">
+              <h4 className="font-inter text-body-sm text-on-surface-variant mb-2">Live Socket Connection</h4>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-secondary-fixed-dim shadow-[0_0_8px_rgba(20,184,166,0.6)]"></div>
+                <span className="font-inter text-body-sm text-on-surface">Connected (wss://api.v1)</span>
+              </div>
+            </div>
+            
+            <div className="bg-surface-container rounded-lg p-4">
+              <h4 className="font-inter text-body-sm text-on-surface-variant mb-2">Last Webhook Received</h4>
+              <div className="flex justify-between items-center">
+                <span className="font-geist text-body-sm text-on-surface break-all mr-2">evt_sync_success_8x9a</span>
+                <span className="font-inter text-body-xs text-on-surface-variant whitespace-nowrap">2 mins ago</span>
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
     </>
