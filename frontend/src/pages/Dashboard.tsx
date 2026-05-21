@@ -1,11 +1,30 @@
+import NetWorthWidget from '../components/dashboard/NetWorthWidget'
+import CashFlowChart from '../components/dashboard/CashFlowChart'
+import AssetAllocationChart from '../components/dashboard/AssetAllocationChart'
+import RecentTransactionsTable from '../components/dashboard/RecentTransactionsTable'
+
 export default function Dashboard() {
   return (
-    <div className="flex items-center justify-center h-full min-h-[400px]">
-      <div className="text-center">
-        <span className="material-symbols-outlined text-[48px] text-on-surface-variant mb-4 block">dashboard</span>
-        <h2 className="font-inter text-headline-lg text-on-surface mb-2">Dashboard</h2>
-        <p className="font-inter text-body-md text-on-surface-variant">Coming soon — charts & insights</p>
-      </div>
+    <div className="flex flex-col gap-6 max-w-7xl mx-auto w-full">
+      {/* Top Row: Net Worth */}
+      <section>
+        <NetWorthWidget />
+      </section>
+
+      {/* Middle Row: Charts */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <CashFlowChart />
+        </div>
+        <div className="lg:col-span-1">
+          <AssetAllocationChart />
+        </div>
+      </section>
+
+      {/* Bottom Row: Transactions */}
+      <section>
+        <RecentTransactionsTable />
+      </section>
     </div>
   )
 }
